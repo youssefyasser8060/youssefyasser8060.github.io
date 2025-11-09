@@ -1,28 +1,29 @@
-// Small UI JS: mobile menu toggle + contact form mock
+
+
 document.addEventListener('DOMContentLoaded', function(){
-  // year
-  document.getElementById('year').textContent = new Date().getFullYear();
+  
+    const yearElement = document.getElementById('year');
+    if(yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
 
-  // nav toggle
-  const toggle = document.querySelector('.nav-toggle');
-  const menu = document.querySelector('.menu');
-  toggle && toggle.addEventListener('click', ()=> {
-    if(menu.style.display === 'flex') menu.style.display = '';
-    else menu.style.display = 'flex';
-  });
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.querySelector('.menu');
 
-  // contact form (mock)
-  const form = document.getElementById('contactForm');
-  const formMsg = document.getElementById('formMsg');
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-    if(!name || !email || !message){ formMsg.textContent = 'Please fill all fields.'; return; }
-    // Simple fake "send" behavior
-    formMsg.textContent = 'Thanks — your message was sent (mock).';
-    form.reset();
-    setTimeout(()=> formMsg.textContent = '', 4000);
-  });
+    if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+        
+            menu.classList.toggle('is-open'); 
+
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true' || false;
+            toggle.setAttribute('aria-expanded', !isExpanded);
+        });
+
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
 });
